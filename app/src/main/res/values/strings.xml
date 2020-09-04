@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ProFit_Java</string>
+    <!-- 10.0.2.2 ersetzt den Localhost, da die App sonst nicht auf den Webserver zugreifen kann, sondern sich durch den Rollback des Emulators nur selbst aufruft und so keinen Zugriff
+    auf das PHP-Script erhält -->
+    <string name="XAMPP">http://10.0.2.2/ProFit</string>
+</resources>
