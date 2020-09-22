@@ -3,4 +3,13 @@
     <!-- 10.0.2.2 ersetzt den Localhost, da die App sonst nicht auf den Webserver zugreifen kann, sondern sich durch den Rollback des Emulators nur selbst aufruft und so keinen Zugriff
     auf das PHP-Script erhält -->
     <string name="XAMPP">http://10.0.2.2/ProFit</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <!-- Liste von Einträgen des Spinners -->
+    <string name="title_activity_task_list">TaskListActivity</string>
+    <string-array name="studios">
+        <item>bitte wählen</item>
+        <item>M4Fitness</item>
+        <item>Privat</item>
+    </string-array>
 </resources>

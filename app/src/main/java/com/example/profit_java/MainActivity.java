@@ -2,7 +2,9 @@ package com.example.profit_java;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -40,47 +42,80 @@ public class MainActivity extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
     }
 
-    public void signUp(View view) {
-        String create_user_url = getString(R.string.XAMPP) + "/registrieren_test.php";
+    public void signUp_start(View view) {
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                                Intent intent = new Intent(MainActivity.this, SignIn.class);
+                                startActivity(intent);
 
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
-                            Log.i("response", response);
-
-                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
-                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
-                            Toast.makeText(MainActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams(){
-                Map<String, String> params = new HashMap<>();
-                params.put("username", userName.getText().toString());
-                params.put("password", userPassword.getText().toString());
-
-                return params;
-            }
-        };
-
-        queue.add(postRequest);
     }
 
+    public void logIn(View view) {
+
+        if (userName.getText().toString().matches("") || userPassword.getText().toString().matches("")) {
+            Toast.makeText(MainActivity.this, "bitte füllen Sie alle Felder aus!", Toast.LENGTH_SHORT).show();
+
+            // .contains sucht spezielle Zeichen innerhalb der Edittexte, damit keine Email adresse ohne @ erzeugt wird.
+            // so könnten auch Zeichen oder Wörter verhindert nwerden?
+
+            } else {
+
+
+                String create_user_url = getString(R.string.XAMPP) + "/Login_ProFit.php";
+
+                StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+
+                                // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                                Log.i("response", response);
+
+                                try {
+                                    JSONObject jsonResponse = new JSONObject(response);
+                                    // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                                    // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+                                    Toast.makeText(MainActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+                                    int success = Integer.parseInt(jsonResponse.get("success").toString());
+                                    if (success == 1) {
+                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("kundenID", jsonResponse.getInt("user_id")).apply();
+
+                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("username", userName.getText().toString()).apply();
+
+                                        // der Intent startet die neue Activity
+                                        // dabei wird zuerst die Activity angegeben, in der wir uns befinden
+                                        // und anschließend die Zielactivity
+                                        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("username", userName.getText().toString());
+                        params.put("password", userPassword.getText().toString());
+
+                        return params;
+                    }
+                };
+
+                queue.add(postRequest);
+
+            }
+
+        }
 
 
 }

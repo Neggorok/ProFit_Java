@@ -13,7 +13,7 @@
         android:id="@+id/imageView_Logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:src="@drawable/ic_launcher_foreground"/>
+        android:src="@drawable/ppp"/>
 
 
 
@@ -52,7 +52,7 @@
         android:onClick="logIn"/>
 
     <TextView
-        android:id="@+id/signUp"
+        android:id="@+id/signUp_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonLogIn"
@@ -61,7 +61,7 @@
         android:text="Registrieren"
         android:textColor="#4a4cc3"
         android:textStyle="bold"
-        android:onClick="signUp"></TextView>
+        android:onClick="signUp_start"/>
 
 
 </RelativeLayout>
