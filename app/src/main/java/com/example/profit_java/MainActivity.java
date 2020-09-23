@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void signUp_start(View view) {
 
-                                Intent intent = new Intent(MainActivity.this, SignIn.class);
-                                startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, SignIn.class);
+        startActivity(intent);
 
     }
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                         // der Intent startet die neue Activity
                                         // dabei wird zuerst die Activity angegeben, in der wir uns befinden
                                         // und anschließend die Zielactivity
-                                        Intent intent = new Intent(MainActivity.this, TaskListActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), TaskListActivity.class);
                                         startActivity(intent);
                                     }
                                 } catch (JSONException e) {

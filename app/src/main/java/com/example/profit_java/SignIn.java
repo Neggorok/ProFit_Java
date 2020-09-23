@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-// "implements AdapterView" sorgt dafür, das die Klasse in der Lage ist, einen SelectListener  zu nutzen
+// "implements AdapterView" sorgt dafür, das die Klasse in der Lage ist, einen SelectListener zu nutzen
 public class SignIn extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
