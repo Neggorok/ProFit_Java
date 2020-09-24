@@ -6,7 +6,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".TaskListActivity"
-    tools:showIn="@layout/activity_task_list">
+    tools:showIn="@layout/activity_task_list"
+    android:id="@+id/conRelativeLayout">
+
+
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_alignRight="@+id/swipeRefreshLayout"
+        android:id="@+id/userScoreTextView"
+        android:text="userScore"
+        android:textSize="20sp"
+        />
+
 
     <!-- Sorgt dafür, dass durch swipen festgelegter Inhalt refresht wird, zum Beispiel
      die Punktzahl oder neue Aufgaben-->
@@ -20,6 +33,7 @@
             android:layout_height="match_parent"
             android:id="@+id/taskListRecyclerView"
             />
+
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
