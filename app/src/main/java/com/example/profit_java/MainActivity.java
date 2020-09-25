@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.prefs.PreferenceChangeEvent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
                                     int success = Integer.parseInt(jsonResponse.get("success").toString());
                                     if (success == 1) {
                                         PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("kundenID", jsonResponse.getInt("user_id")).apply();
+
+                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("userScore", jsonResponse.getInt("user_score")).apply();
 
                                         PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("username", userName.getText().toString()).apply();
 

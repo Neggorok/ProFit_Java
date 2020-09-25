@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/linearLayoutTaskListItem"
     android:background="@color/cardview_light_background"
-    android:paddingLeft="15dp">
+    android:paddingLeft="15dp"
+    android:layout_marginTop="20dp">
 
 
     <RelativeLayout

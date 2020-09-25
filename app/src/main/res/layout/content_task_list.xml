@@ -7,18 +7,20 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".TaskListActivity"
     tools:showIn="@layout/activity_task_list"
-    android:id="@+id/conRelativeLayout">
+    android:id="@+id/conRelativeLayout"
+    android:layout_marginTop="70dp"
+    >
 
 
 
-    <TextView
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_alignRight="@+id/swipeRefreshLayout"
-        android:id="@+id/userScoreTextView"
-        android:text="userScore"
-        android:textSize="20sp"
-        />
+<!--    <TextView-->
+<!--        android:layout_width="120dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_alignRight="@+id/swipeRefreshLayout"-->
+<!--        android:id="@+id/userScoreTV"-->
+<!--        android:text="userScore"-->
+<!--        android:textSize="20sp"-->
+<!--        />-->
 
 
     <!-- Sorgt dafür, dass durch swipen festgelegter Inhalt refresht wird, zum Beispiel
