@@ -25,10 +25,10 @@
 
     <!-- Sorgt dafür, dass durch swipen festgelegter Inhalt refresht wird, zum Beispiel
      die Punktzahl oder neue Aufgaben-->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipeRefreshLayout">
+<!--    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:id="@+id/swipeRefreshLayout">-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             />
 
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
 

@@ -45,6 +45,7 @@ public class TaskListActivity extends AppCompatActivity {
 
     int loggedInUserID;
     int loggedInUserscore;
+    int refreshedUserscore;
     String loggedInUsername;
 
 
@@ -74,7 +75,23 @@ public class TaskListActivity extends AppCompatActivity {
         loggedInUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
         loggedInUsername = PreferenceManager.getDefaultSharedPreferences(this).getString("username", "-1");
 
+//        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("refreshedScore", -1);
+
+
         currentUserscoreTV = (TextView) findViewById(R.id.userScoreTV);
+
+
+
+
+        //dringend jemanden Fragen wieso das funktioniert
+        SharedPreferences SPUserscore = getSharedPreferences(String.valueOf(loggedInUserscore), Activity.MODE_PRIVATE);
+        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
+//        String setUserscore = SPRefreshedUserscore.getString(String.valueOf(refreshedUserscore), "");
+        String startUserscore = SPUserscore.getString("", String.valueOf(loggedInUserscore));
+
+
+        currentUserscoreTV.setText(startUserscore);
+
 
         taskList = new ArrayList<>();
         adapter = new TaskListAdapter(this, taskList);
@@ -87,8 +104,9 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
+
+//        loadUserScore();
         loadTaskList();
-        loadUserScore();
 
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
@@ -96,7 +114,6 @@ public class TaskListActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 // legt fest, was beim swipen refresht wird
-                loadTaskList();
                 loadUserScore();
 
                 // beendet die optische Laderückgabe - also den sich drehenden Preil
@@ -106,6 +123,8 @@ public class TaskListActivity extends AppCompatActivity {
     }
 
     public void loadTaskList() {
+
+        taskList.clear();
         String create_user_url = getString(R.string.XAMPP) + "/GetAllTasks.php";
 
         StringRequest postRequest = new StringRequest(Request.Method.GET, create_user_url,
@@ -149,18 +168,63 @@ public class TaskListActivity extends AppCompatActivity {
 
     public void loadUserScore() {
 
+        String create_user_url = getString(R.string.XAMPP) + "/ScoreRefresh.php";
 
-        if (loggedInUsername != null )
-        {
-            Toast.makeText(TaskListActivity.this, loggedInUsername, Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(TaskListActivity.this, "Daten NICHT vorhanden", Toast.LENGTH_SHORT).show();
-        }
+        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                        Log.i("response", response);
+
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+//                            Toast.makeText(TaskListActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+                            int success = Integer.parseInt(jsonResponse.get("success").toString());
+                            if (success == 1) {
+
+                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("aUsername", loggedInUsername);
+
+                return params;
+            }
+        };
+
+
+
+
+
+        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("refreshedScore", -1);
 
         //dringend jemanden Fragen wieso das funktioniert
-        SharedPreferences sharedPreferencUserscore = getSharedPreferences(String.valueOf(loggedInUserscore), Activity.MODE_PRIVATE);
+        SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
         // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-        String setUserscore = sharedPreferencUserscore.getString("", String.valueOf(loggedInUserscore));
+//        String setUserscore = SPRefreshedUserscore.getString(String.valueOf(refreshedUserscore), "");
+        String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
+
 
         currentUserscoreTV.setText(setUserscore);
 
@@ -168,6 +232,7 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
+        queue.add(postRequest);
 
 
 
@@ -177,47 +242,5 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
-
-
-
-//        String create_user_url = getString(R.string.XAMPP) + "/GetUserScore.php";
-//
-//        StringRequest postRequest = new StringRequest(Request.Method.GET, create_user_url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//
-//
-//                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
-//                        Log.i("response", response);
-//
-//                        try {
-//                            JSONObject jsonResponse = new JSONObject(response);
-//                            JSONArray scoreArray = (JSONArray) jsonResponse.get("user");
-//
-//
-//                            for (int taskObjekte = 0; taskObjekte < scoreArray.length(); taskObjekte++) {
-//                                JSONObject taskJson = taskArray.getJSONObject(taskObjekte);
-//
-//                                taskList.add(new Task(taskJson.getString("taskname")));
-//                            }
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        adapter.notifyDataSetChanged();
-//
-//
-//
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//
-//        queue.add(postRequest);
     }
 }

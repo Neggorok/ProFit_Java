@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
                                         PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("userScore", jsonResponse.getInt("user_score")).apply();
 
-                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("username", userName.getText().toString()).apply();
+//                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("username", userName.getText().toString()).apply();
+                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("username", jsonResponse.getString("user_name")).apply();
+
 
                                         // der Intent startet die neue Activity
                                         // dabei wird zuerst die Activity angegeben, in der wir uns befinden
