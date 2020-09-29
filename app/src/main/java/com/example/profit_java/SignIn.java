@@ -109,7 +109,7 @@ public class SignIn extends AppCompatActivity implements AdapterView.OnItemSelec
                                         // der Intent startet die neue Activity
                                         // dabei wird zuerst die Activity angegeben, in der wir uns befinden
                                         // und anschließend die Zielactivity
-                                        Intent intent = new Intent(SignIn.this, SignIn.class);
+                                        Intent intent = new Intent(SignIn.this, TaskListActivity.class);
                                         startActivity(intent);
                                     }
 

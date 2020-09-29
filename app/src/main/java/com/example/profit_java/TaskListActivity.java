@@ -41,7 +41,6 @@ import java.util.Map;
 public class TaskListActivity extends AppCompatActivity {
 
 
-    public static final String TEXT = "text";
 
     int loggedInUserID;
     int loggedInUserscore;
@@ -59,7 +58,6 @@ public class TaskListActivity extends AppCompatActivity {
 
     RequestQueue queue;
 
-    private String userscore;
 
 
     @Override
@@ -82,14 +80,10 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
-
-        //dringend jemanden Fragen wieso das funktioniert
+        // legt die shared Pref fest, um das TextView des beim create geladenen Userscores darzustellen
         SharedPreferences SPUserscore = getSharedPreferences(String.valueOf(loggedInUserscore), Activity.MODE_PRIVATE);
-        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-//        String setUserscore = SPRefreshedUserscore.getString(String.valueOf(refreshedUserscore), "");
         String startUserscore = SPUserscore.getString("", String.valueOf(loggedInUserscore));
-
-
+        // befüllt den TextView
         currentUserscoreTV.setText(startUserscore);
 
 
@@ -105,7 +99,6 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
-//        loadUserScore();
         loadTaskList();
 
 
@@ -188,7 +181,8 @@ public class TaskListActivity extends AppCompatActivity {
                             int success = Integer.parseInt(jsonResponse.get("success").toString());
                             if (success == 1) {
 
-                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
+//                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
+                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
 
                             }
                         } catch (JSONException e) {
@@ -214,17 +208,12 @@ public class TaskListActivity extends AppCompatActivity {
         };
 
 
-
-
-
-        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("refreshedScore", -1);
+        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
 
         //dringend jemanden Fragen wieso das funktioniert
         SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
         // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-//        String setUserscore = SPRefreshedUserscore.getString(String.valueOf(refreshedUserscore), "");
         String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
-
 
         currentUserscoreTV.setText(setUserscore);
 
@@ -233,14 +222,6 @@ public class TaskListActivity extends AppCompatActivity {
 
 
         queue.add(postRequest);
-
-
-
-
-
-
-
-
 
     }
 }
