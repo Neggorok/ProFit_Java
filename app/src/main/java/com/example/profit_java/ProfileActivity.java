@@ -1,10 +1,15 @@
 package com.example.profit_java;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,37 +17,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// TrainingsabschnittActivity
-public class TaskListActivity extends AppCompatActivity {
-
-
+public class ProfileActivity extends AppCompatActivity {
 
     int loggedInUserID;
     int loggedInUserscore;
@@ -50,24 +33,16 @@ public class TaskListActivity extends AppCompatActivity {
     String loggedInUsername;
 
 
-
-    private TaskListAdapter adapter;
-    private List<Task> taskList;
-
     TextView currentUserscoreTV;
-    RecyclerView taskRecyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
     RequestQueue queue;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_profile);
+
 
         // speichert die Daten aus den sharedPreferences in den Variablen.
         // -1 wird zurückgegeben, wenn keine Daten gefunden werden
@@ -75,49 +50,34 @@ public class TaskListActivity extends AppCompatActivity {
         loggedInUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
         loggedInUsername = PreferenceManager.getDefaultSharedPreferences(this).getString("username", "-1");
 
-//        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("refreshedScore", -1);
 
 
-        currentUserscoreTV = (TextView) findViewById(R.id.userScoreTV);
+        currentUserscoreTV = (TextView) findViewById(R.id.userScoreProfileTV);
 
 
 
-//        // legt die shared Pref fest, um das TextView des beim create geladenen Userscores darzustellen
-//        SharedPreferences SPUserscore = getSharedPreferences(String.valueOf(loggedInUserscore), Activity.MODE_PRIVATE);
-//        String startUserscore = SPUserscore.getString("", String.valueOf(loggedInUserscore));
-//        // befüllt den TextView
-//        currentUserscoreTV.setText(startUserscore);
 
-
-        taskList = new ArrayList<>();
-        adapter = new TaskListAdapter(this, taskList);
-        taskRecyclerView = (RecyclerView) findViewById(R.id.taskListRecyclerView);
-        taskRecyclerView.setHasFixedSize(true);
-        taskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskRecyclerView.setAdapter(adapter);
 
         queue = Volley.newRequestQueue(this);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutProfile);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // legt fest, was beim swipen refresht wird
-                loadUserScore();
-
+                loadUserProfileScore();
 
                 // beendet die optische Laderückgabe - also den sich drehenden Preil
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        loadUserScore();
-        loadTaskList();
+
+        loadUserProfileScore();
     }
 
 
-
-    public void loadUserScore() {
+    public void loadUserProfileScore() {
 
         String create_user_url = getString(R.string.XAMPP) + "/ScoreRefresh.php";
 
@@ -142,7 +102,7 @@ public class TaskListActivity extends AppCompatActivity {
                                 // PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
                                 // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
                                 // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
-                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
+                                PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
 
                             }
                         } catch (JSONException e) {
@@ -166,7 +126,6 @@ public class TaskListActivity extends AppCompatActivity {
                 return params;
             }
         };
-
 
 
         refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
@@ -193,66 +152,5 @@ public class TaskListActivity extends AppCompatActivity {
 
         queue.add(postRequest);
 
-    }
-
-
-    public void loadTaskList() {
-
-        taskList.clear();
-        String create_user_url = getString(R.string.XAMPP) + "/GetAllTasks.php";
-
-        StringRequest postRequest = new StringRequest(Request.Method.GET, create_user_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-
-                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
-                        Log.i("response", response);
-
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            // holt das Response Array der PHP Datei und verpackt es in ein JSON Array
-                            JSONArray taskArray = (JSONArray) jsonResponse.get("task");
-
-
-                            for (int taskObjekte = 0; taskObjekte < taskArray.length(); taskObjekte++) {
-                                JSONObject taskJson = taskArray.getJSONObject(taskObjekte);
-
-                                taskList.add(new Task(taskJson.getString("taskname")));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        adapter.notifyDataSetChanged();
-
-
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        queue.add(postRequest);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_task_list, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.profile) {
-            Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(i);
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
