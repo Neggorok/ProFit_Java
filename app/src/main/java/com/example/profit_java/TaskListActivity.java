@@ -51,6 +51,7 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
+
     private TaskListAdapter adapter;
     private List<Task> taskList;
 
@@ -172,20 +173,15 @@ public class TaskListActivity extends AppCompatActivity {
         refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
 
 
-
-//        //dringend jemanden Fragen wieso das funktioniert
-//        SharedPreferences SPUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
-//        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-//        String setUserscore = SPUserscore.getString("", String.valueOf(refreshedUserscore));
-//
-//        currentUserscoreTV.setText(setUserscore);
-
         //dringend jemanden Fragen wieso das funktioniert
         SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
         // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
         String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
 
         currentUserscoreTV.setText(setUserscore);
+
+
+
 
 
 
