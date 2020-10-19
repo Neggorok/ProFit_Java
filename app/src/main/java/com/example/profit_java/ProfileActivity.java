@@ -29,12 +29,14 @@ public class ProfileActivity extends AppCompatActivity {
 
     int loggedInUserID;
     int loggedInUserscore;
+    int loggedInUserTear;
     int refreshedUserscore;
+    int refreshedUserTear;
     String loggedInUsername;
 
 
     TextView currentUserscoreTV;
-    SwipeRefreshLayout swipeRefreshLayout;
+    TextView currentUserTearTV;
 
     RequestQueue queue;
 
@@ -49,30 +51,14 @@ public class ProfileActivity extends AppCompatActivity {
         loggedInUserID = PreferenceManager.getDefaultSharedPreferences(this).getInt("kundenID", -1);
         loggedInUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
         loggedInUsername = PreferenceManager.getDefaultSharedPreferences(this).getString("username", "-1");
-
-
+        loggedInUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
 
         currentUserscoreTV = (TextView) findViewById(R.id.userScoreProfileTV);
-
-
-
-
+        currentUserTearTV = (TextView) findViewById(R.id.userTearProfileTV);
 
         queue = Volley.newRequestQueue(this);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayoutProfile);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // legt fest, was beim swipen refresht wird
-                loadUserProfileScore();
-
-                // beendet die optische Laderückgabe - also den sich drehenden Preil
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-
+        // lädt den Score und das Tear
         loadUserProfileScore();
     }
 
@@ -103,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
                                 // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
                                 PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
+                                PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit().putInt("userTear", jsonResponse.getInt("refreshed_tear")).apply();
 
                             }
                         } catch (JSONException e) {
@@ -129,25 +116,19 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
+        refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
 
-
-
-//        //dringend jemanden Fragen wieso das funktioniert
-//        SharedPreferences SPUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
-//        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-//        String setUserscore = SPUserscore.getString("", String.valueOf(refreshedUserscore));
-//
-//        currentUserscoreTV.setText(setUserscore);
 
         //dringend jemanden Fragen wieso das funktioniert
         SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
         // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
         String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
 
+        SharedPreferences SPRefreshedUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
+        String setUserTear = SPRefreshedUserTear.getString("", String.valueOf(refreshedUserTear));
+
         currentUserscoreTV.setText(setUserscore);
-
-
-
+        currentUserTearTV.setText(setUserTear);
 
 
         queue.add(postRequest);

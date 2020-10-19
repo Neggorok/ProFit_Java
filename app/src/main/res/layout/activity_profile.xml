@@ -6,27 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userScoreProfileTV"
+        android:text="userScore"
+        android:textSize="20sp"
+        android:layout_marginTop="60dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UserTear"
+        android:textSize="20sp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="100dp"
+        android:id="@+id/userTearProfileTV"/>
 
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipeRefreshLayoutProfile"
-        >
 
-
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_alignRight="@+id/swipeRefreshLayoutProfile"
-            android:id="@+id/userScoreProfileTV"
-            android:text="userScore"
-            android:textSize="20sp"
-            android:paddingTop="60dp"
-            />
-
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

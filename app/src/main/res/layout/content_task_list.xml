@@ -8,7 +8,6 @@
     tools:context=".TaskListActivity"
     tools:showIn="@layout/activity_task_list"
     android:id="@+id/conRelativeLayout"
-    android:layout_marginTop="70dp"
     android:orientation="horizontal"
     >
 

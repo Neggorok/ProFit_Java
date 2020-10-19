@@ -7,30 +7,6 @@
     tools:context=".TaskListActivity">
 
 
-    <!-- Sorgt dafür, dass durch swipen festgelegter Inhalt refresht wird, zum Beispiel
-     die Punktzahl oder neue Aufgaben-->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_marginTop="60dp">
-
-
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:layout_alignRight="@+id/swipeRefreshLayout"
-            android:id="@+id/userScoreTV"
-            android:text="userScore"
-            android:textSize="20sp"
-            android:layout_marginTop="60dp"
-            />
-
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +24,72 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <!-- verknüpft das grundlegende Layout der Taskliste mit dem Layout der einzelnen TaskItems  -->
-    <include layout="@layout/content_task_list" />
+    <!-- Sorgt dafür, dass durch swipen festgelegter Inhalt refresht wird, zum Beispiel
+     die Punktzahl oder neue Aufgaben-->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/task_list_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/userScoreTV"
+                            android:text="userScore"
+                            android:textSize="20sp"
+                            android:layout_marginTop="60dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="UserTear"
+                            android:textSize="20sp"
+                            android:layout_marginTop="60dp"
+                            android:layout_marginLeft="100dp"
+                            android:id="@+id/userTearTV"/>
+
+                        <!-- verknüpft das grundlegende Layout der Taskliste mit dem Layout der einzelnen TaskItems  -->
+                        <include
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/userTearTV"
+                            android:layout_marginTop="20dp"
+                            layout="@layout/content_task_list" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+
+
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+<!--    &lt;!&ndash; verknüpft das grundlegende Layout der Taskliste mit dem Layout der einzelnen TaskItems  &ndash;&gt;-->
+<!--    <include layout="@layout/content_task_list" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

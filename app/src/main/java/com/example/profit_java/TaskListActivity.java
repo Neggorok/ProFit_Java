@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.PreferenceChangeEvent;
 
 // TrainingsabschnittActivity
 public class TaskListActivity extends AppCompatActivity {
@@ -47,6 +48,8 @@ public class TaskListActivity extends AppCompatActivity {
     int loggedInUserID;
     int loggedInUserscore;
     int refreshedUserscore;
+    int refreshedUserTear;
+    int loggedInUserTear;
     String loggedInUsername;
 
 
@@ -56,6 +59,7 @@ public class TaskListActivity extends AppCompatActivity {
     private List<Task> taskList;
 
     TextView currentUserscoreTV;
+    TextView currentUserTearTV;
     RecyclerView taskRecyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -75,11 +79,13 @@ public class TaskListActivity extends AppCompatActivity {
         loggedInUserID = PreferenceManager.getDefaultSharedPreferences(this).getInt("kundenID", -1);
         loggedInUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
         loggedInUsername = PreferenceManager.getDefaultSharedPreferences(this).getString("username", "-1");
+        loggedInUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
 
 //        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("refreshedScore", -1);
 
 
         currentUserscoreTV = (TextView) findViewById(R.id.userScoreTV);
+        currentUserTearTV = (TextView) findViewById(R.id.userTearTV);
 
 
 
@@ -144,6 +150,7 @@ public class TaskListActivity extends AppCompatActivity {
                                 // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
                                 // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
                                 PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
+                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userTear", jsonResponse.getInt("user_tear")).apply();
 
                             }
                         } catch (JSONException e) {
@@ -171,6 +178,7 @@ public class TaskListActivity extends AppCompatActivity {
 
 
         refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
+        refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
 
 
         //dringend jemanden Fragen wieso das funktioniert
@@ -178,7 +186,11 @@ public class TaskListActivity extends AppCompatActivity {
         // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
         String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
 
+        SharedPreferences SPRefreshedUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
+        String setUserTear = SPRefreshedUserTear.getString("", String.valueOf(refreshedUserTear));
+
         currentUserscoreTV.setText(setUserscore);
+        currentUserTearTV.setText(setUserTear);
 
 
 
