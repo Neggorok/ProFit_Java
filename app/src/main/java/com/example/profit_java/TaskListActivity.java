@@ -209,7 +209,7 @@ public class TaskListActivity extends AppCompatActivity {
         taskList.clear();
         String create_user_url = getString(R.string.XAMPP) + "/GetAllTasks.php";
 
-        StringRequest postRequest = new StringRequest(Request.Method.GET, create_user_url,
+        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -243,7 +243,15 @@ public class TaskListActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("usertear", String.valueOf(loggedInUserTear));
+
+                return params;
+            }
+        };
 
         queue.add(postRequest);
     }
