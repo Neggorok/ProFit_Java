@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
 
                                         PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("userTear", jsonResponse.getInt("user_tear")).apply();
 
+                                        PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("userStudio", jsonResponse.getString("user_studio")).apply();
+
 
                                         // der Intent startet die neue Activity
                                         // dabei wird zuerst die Activity angegeben, in der wir uns befinden

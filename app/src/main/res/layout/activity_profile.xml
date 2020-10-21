@@ -6,25 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userScoreProfileTV"
-        android:text="userScore"
-        android:textSize="20sp"
-        android:layout_marginTop="60dp"
-        />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="UserTear"
-        android:textSize="20sp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="100dp"
-        android:id="@+id/userTearProfileTV"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/userInfos">
 
 
-</RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/userScoreProfileTV"
+                        android:text="userScore"
+                        android:textSize="20sp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="60dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="UserTear"
+                        android:textSize="20sp"
+                        android:layout_marginTop="60dp"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/userTearProfileTV"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/userInfos"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="currentUserStudioTV"
+                            android:textSize="20sp"
+                            android:id="@+id/currentUserStudioTV"/>
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/userStudioSpinner"
+                            android:layout_centerHorizontal="true"
+                            />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/Spinner_Studio"
+                            android:layout_marginTop="60dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="Ändern"
+                            android:id="@+id/changeUserStudio"
+                            android:onClick="changeUserStudio"
+                            />
+
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+        </RelativeLayout>
+

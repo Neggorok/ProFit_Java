@@ -65,7 +65,7 @@
                             android:layout_marginTop="60dp"
                             android:layout_marginLeft="100dp"
                             android:id="@+id/userTearTV"/>
-
+                        
                         <!-- verknüpft das grundlegende Layout der Taskliste mit dem Layout der einzelnen TaskItems  -->
                         <include
                             android:layout_width="match_parent"

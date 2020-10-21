@@ -12,4 +12,11 @@
         <item>M4Fitness</item>
         <item>Privat</item>
     </string-array>
+
+    <string name="title_activity_profile">TaskListActivity</string>
+    <string-array name="studiosProfile">
+        <item>bitte wählen</item>
+        <item>M4Fitness</item>
+        <item>Privat</item>
+    </string-array>
 </resources>
