@@ -14,7 +14,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="100dp"
                     android:id="@+id/userInfos">
 
 
@@ -39,10 +39,16 @@
 
                     </RelativeLayout>
 
+
+
+
+
+
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_below="@+id/userInfos"
+                        android:layout_height="100dp"
+                        android:id="@+id/userStudio"
+                        android:layout_below="@+id/userNameProfileRL"
                         >
 
                         <TextView
@@ -70,8 +76,68 @@
                             android:onClick="changeUserStudio"
                             />
 
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@+id/userInfos"
+                        android:id="@+id/userNameProfileRL">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/userNameProfile"
+                            android:text="userName"
+                            android:textSize="20sp"
+                            android:layout_marginLeft="20sp"
+                            android:layout_marginTop="60dp"
+                            />
 
                     </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/userEmailRl"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/userStudio">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="currentUserEmailTV"
+                        android:textSize="20sp"
+                        android:id="@+id/currentUserEmailTV"/>
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:hint="newUserEmail"
+                        android:id="@+id/newUserEmail"/>
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/Spinner_Studio"
+                    android:layout_marginTop="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Emailadresse ändern"
+                    android:id="@+id/changeUserEmail"
+                    android:onClick="changeUserEmail"
+                    />
+
+
+            </RelativeLayout>
+
+
 
                 </RelativeLayout>
 

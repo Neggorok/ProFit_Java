@@ -7,13 +7,13 @@
 
     <!-- Liste von Einträgen des Spinners -->
     <string name="title_activity_task_list">TaskListActivity</string>
+    <string name="title_activity_profile">TaskListActivity</string>
+
     <string-array name="studios">
         <item>bitte wählen</item>
         <item>M4Fitness</item>
         <item>Privat</item>
     </string-array>
-
-    <string name="title_activity_profile">TaskListActivity</string>
     <string-array name="studiosProfile">
         <item>bitte wählen</item>
         <item>M4Fitness</item>
