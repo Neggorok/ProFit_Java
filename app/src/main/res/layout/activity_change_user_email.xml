@@ -45,7 +45,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="Ändern"
                 android:id="@+id/changeUserEmail"
-                android:onClick="changeUserEmailA"
+                android:onClick="changeUserEmail"
                 />
 
         </RelativeLayout>

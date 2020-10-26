@@ -114,12 +114,7 @@
                         android:textSize="20sp"
                         android:id="@+id/currentUserEmailTV"/>
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:hint="newUserEmail"
-                        android:id="@+id/newUserEmail"/>
+
 
                 </LinearLayout>
 
@@ -131,7 +126,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="Emailadresse ändern"
                     android:id="@+id/changeUserEmail"
-                    android:onClick="changeUserEmail"
+                    android:onClick="changeUserEmailActivity"
                     />
 
 
