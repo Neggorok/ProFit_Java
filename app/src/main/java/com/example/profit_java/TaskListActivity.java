@@ -105,18 +105,18 @@ public class TaskListActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // legt fest, was beim swipen refresht wird
-                loadUserScore();
-
-
-                // beendet die optische Laderückgabe - also den sich drehenden Preil
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+//        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // legt fest, was beim swipen refresht wird
+//                loadUserScore();
+//
+//
+//                // beendet die optische Laderückgabe - also den sich drehenden Preil
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
 
         loadUserScore();
         loadTaskList();

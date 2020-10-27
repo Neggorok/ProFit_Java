@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TaskListActivity">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/activitymenu">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,73 +24,73 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <!-- Sorgt dafür, dass durch swipen festgelegter Inhalt refresht wird, zum Beispiel
-     die Punktzahl oder neue Aufgaben-->
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:id="@+id/taskListLL">
 
-            <RelativeLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userScoreTV"
+                android:text="userScore"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="UserTear"
+                android:textSize="20sp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/userTearTV"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/taskListRL"
+            android:layout_below="@+id/taskListLL">
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            </ScrollView>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/task_list_content">
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/userTearTV"
+                android:layout_marginTop="20dp"
+                layout="@layout/content_task_list" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/userScoreTV"
-                            android:text="userScore"
-                            android:textSize="20sp"
-                            android:layout_marginTop="60dp"
-                            />
+        </RelativeLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="UserTear"
-                            android:textSize="20sp"
-                            android:layout_marginTop="60dp"
-                            android:layout_marginLeft="100dp"
-                            android:id="@+id/userTearTV"/>
-                        
-                        <!-- verknüpft das grundlegende Layout der Taskliste mit dem Layout der einzelnen TaskItems  -->
-                        <include
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/userTearTV"
-                            android:layout_marginTop="20dp"
-                            layout="@layout/content_task_list" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/task_list_content"
+            android:layout_alignParentBottom="true">
 
-                    </RelativeLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/trainButton"
+                android:layout_alignParentRight="true"
+                android:text="Training"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
 
-                </RelativeLayout>
+        </RelativeLayout>
 
-            </RelativeLayout>
+    </RelativeLayout>
 
-        </ScrollView>
-
-
-
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-<!--    &lt;!&ndash; verknüpft das grundlegende Layout der Taskliste mit dem Layout der einzelnen TaskItems  &ndash;&gt;-->
-<!--    <include layout="@layout/content_task_list" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
