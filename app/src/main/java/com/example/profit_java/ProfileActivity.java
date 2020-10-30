@@ -128,6 +128,11 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
+    public void taskListButton(View view){
+        Intent intent = new Intent(ProfileActivity.this, TaskListActivity.class);
+        startActivity(intent);
+    }
+
     public void changeUserStudio(View view) {
 
         // die vorgelagerte If-Abfrage sorgt dafür, dass die Edittexte nicht leer bleiben dürfen
@@ -185,6 +190,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                 }
             };
 
+            queue.add(postRequest);
+
             refreshedUserStudio = PreferenceManager.getDefaultSharedPreferences(this).getString("userstudio", "-1");
 
 
@@ -193,7 +200,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
             currentUserStudioTV.setText(setUserStudio);
 
-            queue.add(postRequest);
 
         }
 
@@ -254,6 +260,8 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             }
         };
 
+        queue.add(postRequest);
+
 
         refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
         refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
@@ -273,7 +281,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
 
 
-        queue.add(postRequest);
 
     }
 

@@ -150,7 +150,32 @@ public class TaskListActivity extends AppCompatActivity {
                                 // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
                                 // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
                                 PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
-                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userTear", jsonResponse.getInt("user_tear")).apply();
+                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("userTear", jsonResponse.getInt("refreshed_tear")).apply();
+
+                                
+
+                                refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).getInt("userScore", -1);
+//                                refreshedUserscore = jsonResponse.getInt("userScore");
+
+
+                                refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).getInt("userTear", -1);
+
+//                                refreshedUserTear = jsonResponse.getInt("userTear");
+
+
+                                //dringend jemanden Fragen wieso das funktioniert
+                                SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
+                                // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
+                                String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
+
+                                SharedPreferences SPRefreshedUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
+                                String setUserTear = SPRefreshedUserTear.getString("", String.valueOf(refreshedUserTear));
+
+//                                currentUserscoreTV.setText(setUserscore);
+                                currentUserscoreTV.setText(setUserscore);
+//                                currentUserTearTV.setText(setUserTear);
+                                currentUserTearTV.setText(setUserTear);
+
 
                             }
                         } catch (JSONException e) {
@@ -176,30 +201,23 @@ public class TaskListActivity extends AppCompatActivity {
         };
 
 
-
-        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
-        refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
-
-
-        //dringend jemanden Fragen wieso das funktioniert
-        SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
-        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-        String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
-
-        SharedPreferences SPRefreshedUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
-        String setUserTear = SPRefreshedUserTear.getString("", String.valueOf(refreshedUserTear));
-
-        currentUserscoreTV.setText(setUserscore);
-        currentUserTearTV.setText(setUserTear);
-
-
-
-
-
-
-
-
         queue.add(postRequest);
+
+//
+//        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
+//        refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
+//
+//
+//        //dringend jemanden Fragen wieso das funktioniert
+//        SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
+//        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
+//        String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
+//
+//        SharedPreferences SPRefreshedUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
+//        String setUserTear = SPRefreshedUserTear.getString("", String.valueOf(refreshedUserTear));
+//
+//        currentUserscoreTV.setText(setUserscore);
+//        currentUserTearTV.setText(setUserTear);
 
     }
 
