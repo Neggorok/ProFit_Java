@@ -43,9 +43,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     int refreshedUserscore;
     int refreshedUserTear;
     String loggedInUserEmail;
-    String refreshedUserStudio;
     String loggedInUsername;
     String loggedInUserStudio;
+
+    String refreshedUserStudio;
+    String RefreshedUserScore;
+    String RefreshedUserTear;
 
     Spinner userStudio;
     Button changeUserStudioButton;
@@ -164,6 +167,12 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
 
                                     PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit().putString("userstudio", jsonResponse.getString("refreshed_userStudio")).apply();
 
+                                    refreshedUserStudio = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getString("userstudio", "-1");
+
+                                    SharedPreferences SPUserStudio = getSharedPreferences(refreshedUserStudio, Activity.MODE_PRIVATE);
+                                    String setUserStudio = SPUserStudio.getString("", refreshedUserStudio);
+
+                                    currentUserStudioTV.setText(setUserStudio);
 
                                 }
 
@@ -191,15 +200,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
             };
 
             queue.add(postRequest);
-
-            refreshedUserStudio = PreferenceManager.getDefaultSharedPreferences(this).getString("userstudio", "-1");
-
-
-            SharedPreferences SPUserStudio = getSharedPreferences(refreshedUserStudio, Activity.MODE_PRIVATE);
-            String setUserStudio = SPUserStudio.getString("", refreshedUserStudio);
-
-            currentUserStudioTV.setText(setUserStudio);
-
 
         }
 
@@ -237,6 +237,18 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
                                 PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit().putInt("userScore", jsonResponse.getInt("refreshed_score")).apply();
                                 PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).edit().putInt("userTear", jsonResponse.getInt("refreshed_tear")).apply();
 
+                                refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getInt("userScore", -1);
+                                refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(ProfileActivity.this).getInt("userTear", -1);
+
+                                SharedPreferences SPUserScore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
+                                String setUserScore = SPUserScore.getString("", String.valueOf(refreshedUserscore));
+
+                                SharedPreferences SPUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
+                                String setUserTear = SPUserTear.getString("", String.valueOf(refreshedUserTear));
+
+                                currentUserscoreTV.setText(setUserScore);
+                                currentUserTearTV.setText(setUserTear);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -261,26 +273,6 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
         };
 
         queue.add(postRequest);
-
-
-        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("userScore", -1);
-        refreshedUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
-
-
-        //dringend jemanden Fragen wieso das funktioniert
-        SharedPreferences SPRefreshedUserscore = getSharedPreferences(String.valueOf(refreshedUserscore), Activity.MODE_PRIVATE);
-        // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
-        String setUserscore = SPRefreshedUserscore.getString("", String.valueOf(refreshedUserscore));
-
-        SharedPreferences SPRefreshedUserTear = getSharedPreferences(String.valueOf(refreshedUserTear), Activity.MODE_PRIVATE);
-        String setUserTear = SPRefreshedUserTear.getString("", String.valueOf(refreshedUserTear));
-
-        currentUserscoreTV.setText(setUserscore);
-        currentUserTearTV.setText(setUserTear);
-
-
-
-
 
     }
 
