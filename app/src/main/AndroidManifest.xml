@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".changeUserEmailActivity"></activity>
+        <activity android:name=".ChooseTraining"></activity>
+        <activity android:name=".CreateTraining" />
+        <activity android:name=".changeUserEmailActivity" />
         <activity android:name=".ProfileActivity" />
         <activity
             android:name=".TaskListActivity"
