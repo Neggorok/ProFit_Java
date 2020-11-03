@@ -102,8 +102,7 @@ public class SignIn extends AppCompatActivity implements AdapterView.OnItemSelec
                                     // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
                                     Log.i("response", response);
 
-                                    int success = Integer.parseInt(jsonResponse.get("success").toString());
-
+                                    int success = jsonResponse.getInt("success");
 
                                     if (success == 1) {
                                         // der Intent startet die neue Activity

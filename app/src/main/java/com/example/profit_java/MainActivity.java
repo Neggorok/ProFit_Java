@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                                     // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
                                     Toast.makeText(MainActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
 
-                                    int success = Integer.parseInt(jsonResponse.get("success").toString());
+                                    int success = jsonResponse.getInt("success");
                                     if (success == 1) {
                                         PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putInt("kundenID", jsonResponse.getInt("user_id")).apply();
 

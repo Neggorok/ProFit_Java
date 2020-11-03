@@ -45,10 +45,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     String loggedInUserEmail;
     String loggedInUsername;
     String loggedInUserStudio;
-
     String refreshedUserStudio;
-    String RefreshedUserScore;
-    String RefreshedUserTear;
 
     Spinner userStudio;
     Button changeUserStudioButton;
