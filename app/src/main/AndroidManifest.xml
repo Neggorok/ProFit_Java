@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ChooseTraining"></activity>
+        <activity android:name=".TaskReaction"></activity>
+        <activity android:name=".ChooseTraining" />
         <activity android:name=".CreateTraining" />
         <activity android:name=".changeUserEmailActivity" />
         <activity android:name=".ProfileActivity" />
@@ -27,8 +28,8 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

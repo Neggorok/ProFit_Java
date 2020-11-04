@@ -1,8 +1,16 @@
 package com.example.profit_java;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +32,7 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
     public static class TaskViewHolder extends RecyclerView.ViewHolder {
 
         public TextView taskName;
+        public ImageView taskImage;
         public LinearLayout linearLayout;
 
 
@@ -31,6 +40,7 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
             super(view);
 
             taskName = (TextView) view.findViewById(R.id.taskNameTextView);
+            taskImage = (ImageView) view.findViewById(R.id.taskImage);
             linearLayout = (LinearLayout) view.findViewById(R.id.linearLayoutTaskListItem);
 
         }
@@ -56,6 +66,7 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
     @Override
     public void onBindViewHolder (RecyclerView.ViewHolder holder, final int position){
 
+
         // holt aus der Taskliste ein neues Task opjekt
         final Task task = taskListe.get(position);
 
@@ -65,16 +76,39 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
         taskHolder.taskName.setText(task.getName());
 
 
+        if (task.getTaskImage() != null){
+            taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(task.getTaskImage(), 40, 40, false));
+
+        }else{
+            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.ppp);
+            task.setTaskImage(standartImage);
+
+            taskHolder.taskImage.setImageBitmap(standartImage);
+        }
+
+
 
         // Hier kommt der spätere Onclick Listener hin, wenn auf den einzelnen Task geklickt wird, also die popup activity
         // in der ein Haken für erledigt oder ein x für zurück angeklickt werden können
         taskHolder.linearLayout.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View view) {
                 // Hier wird festgelegt was passiert, wenn der Task angeklickt wird
+                Intent i = new Intent(view.getContext(), TaskReaction.class);
+
+                // hier werden Daten aus der aktuellen Aktivity, an die Zielactivity mit übergeben
+                // es können aber nur sehr kleine Daten mitgegeben werden, große Strings, wie Beispielsweise Bitmaps, gehen nicht
+                i.putExtra("taskNameTest", taskListe.get(position).getName());
+                i.putExtra("taskID", taskListe.get(position).getTaskID());
+
+                view.getContext().startActivity(i);
+
             }
         });
     }
+
+
 
 
 

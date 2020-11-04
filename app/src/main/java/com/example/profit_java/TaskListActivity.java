@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.android.volley.Request;
@@ -27,6 +28,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,6 +126,8 @@ public class TaskListActivity extends AppCompatActivity {
 
 
 
+
+
     public void loadUserScore() {
 
         String create_user_url = getString(R.string.XAMPP) + "/ScoreRefresh.php";
@@ -206,7 +210,6 @@ public class TaskListActivity extends AppCompatActivity {
 
     }
 
-
     public void loadTaskList() {
 
         taskList.clear();
@@ -227,10 +230,19 @@ public class TaskListActivity extends AppCompatActivity {
                             JSONArray taskArray = (JSONArray) jsonResponse.get("task");
 
 
-                            for (int taskObjekte = 0; taskObjekte < taskArray.length(); taskObjekte++) {
-                                JSONObject taskJson = taskArray.getJSONObject(taskObjekte);
+                            for (int taskObjekt = 0; taskObjekt < taskArray.length(); taskObjekt++) {
+                                JSONObject taskJson = taskArray.getJSONObject(taskObjekt);
 
-                                taskList.add(new Task(taskJson.getString("taskname")));
+                                if (taskJson.getString("image").length() > 0) {
+
+                                    String bitmapString = taskJson.getString("image");
+                                    Bitmap imageBitmap = Util.getBitmapFromBase64String(bitmapString);
+
+                                    taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), imageBitmap));
+                                }else{
+                                    taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), null));
+                                }
+
                             }
 
                         } catch (JSONException e) {
