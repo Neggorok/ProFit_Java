@@ -230,20 +230,24 @@ public class TaskListActivity extends AppCompatActivity {
                             JSONArray taskArray = (JSONArray) jsonResponse.get("task");
 
 
-                            for (int taskObjekt = 0; taskObjekt < taskArray.length(); taskObjekt++) {
-                                JSONObject taskJson = taskArray.getJSONObject(taskObjekt);
+                                for (int taskObjekt = 0; taskObjekt < taskArray.length(); taskObjekt++) {
+                                    JSONObject taskJson = taskArray.getJSONObject(taskObjekt);
 
-                                if (taskJson.getString("image").length() > 0) {
+                                    if (taskJson.getString("image").length() > 0) {
 
-                                    String bitmapString = taskJson.getString("image");
-                                    Bitmap imageBitmap = Util.getBitmapFromBase64String(bitmapString);
+                                        String bitmapString = taskJson.getString("image");
+                                        Bitmap imageBitmap = Util.getBitmapFromBase64String(bitmapString);
 
-                                    taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), imageBitmap));
-                                }else{
-                                    taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), null));
+                                        taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), imageBitmap));
+                                    }else{
+                                        taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), null));
+                                    }
+
                                 }
 
-                            }
+
+
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

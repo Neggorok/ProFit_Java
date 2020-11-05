@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,10 +81,11 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
             taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(task.getTaskImage(), 40, 40, false));
 
         }else{
-            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.ppp);
+            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.kreuz);
             task.setTaskImage(standartImage);
 
-            taskHolder.taskImage.setImageBitmap(standartImage);
+            taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(standartImage, 40, 40, false));
+
         }
 
 
@@ -98,9 +100,14 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
                 Intent i = new Intent(view.getContext(), TaskReaction.class);
 
                 // hier werden Daten aus der aktuellen Aktivity, an die Zielactivity mit übergeben
-                // es können aber nur sehr kleine Daten mitgegeben werden, große Strings, wie Beispielsweise Bitmaps, gehen nicht
                 i.putExtra("taskNameTest", taskListe.get(position).getName());
                 i.putExtra("taskID", taskListe.get(position).getTaskID());
+                // es können aber nur sehr kleine Daten mitgegeben werden, große Strings, wie Beispielsweise Bitmaps, gehen nicht
+                String bitmapString = Util.getBase64StringFromBitmap(task.getTaskImage());
+                // daher muss der Base64 String des TaskBildes in den Shared Prefs gespeichert werden
+                // dazu wird die gerade angelegte Variable bitmapString in die shared Pref "taskImageString" gespeichert
+                PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("taskImageString", bitmapString).apply();
+
 
                 view.getContext().startActivity(i);
 
