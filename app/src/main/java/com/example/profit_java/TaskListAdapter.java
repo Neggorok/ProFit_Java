@@ -24,6 +24,7 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
     public ArrayList<Task> taskListe;
     public TaskListActivity activity;
 
+
     // der Adapter speichert die Activity und die Liste in den oben aufgesetzten Variablen
     public TaskListAdapter(TaskListActivity activity, List<Task> list){
         this.activity = activity;
@@ -81,7 +82,10 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
             taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(task.getTaskImage(), 40, 40, false));
 
         }else{
-            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.kreuz);
+
+            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.ppp);
+
+            // TODO setTaskImage scheint nicht zu funktinieren, die folgende Activity - TaskReaktion crasht beim aufrufen leerer Bilder
             task.setTaskImage(standartImage);
 
             taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(standartImage, 40, 40, false));
@@ -90,7 +94,7 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
 
 
 
-        // Hier kommt der spätere Onclick Listener hin, wenn auf den einzelnen Task geklickt wird, also die popup activity
+        // Onclick Listener definiert, wenn auf den einzelnen Task geklickt wird, also die popup activity
         // in der ein Haken für erledigt oder ein x für zurück angeklickt werden können
         taskHolder.linearLayout.setOnClickListener(new View.OnClickListener(){
 
@@ -100,13 +104,14 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
                 Intent i = new Intent(view.getContext(), TaskReaction.class);
 
                 // hier werden Daten aus der aktuellen Aktivity, an die Zielactivity mit übergeben
-                i.putExtra("taskNameTest", taskListe.get(position).getName());
-                i.putExtra("taskID", taskListe.get(position).getTaskID());
-                // es können aber nur sehr kleine Daten mitgegeben werden, große Strings, wie Beispielsweise Bitmaps, gehen nicht
-                String bitmapString = Util.getBase64StringFromBitmap(task.getTaskImage());
-                // daher muss der Base64 String des TaskBildes in den Shared Prefs gespeichert werden
-                // dazu wird die gerade angelegte Variable bitmapString in die shared Pref "taskImageString" gespeichert
-                PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("taskImageString", bitmapString).apply();
+                i.putExtra("taskName", task.getName());
+                int currentTaskID = task.getTaskID();
+                PreferenceManager.getDefaultSharedPreferences(view.getContext()).edit().putInt("taskID", currentTaskID).apply();
+                i.putExtra("taskImage", task.getTaskImage());
+
+
+//                i.putExtra("taskID", task.getTaskID());
+
 
 
                 view.getContext().startActivity(i);

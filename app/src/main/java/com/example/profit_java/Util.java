@@ -39,7 +39,7 @@ public abstract class Util {
     }
 
     public static Bitmap getBitmapFromBase64String(String base64String) {
-        byte[] decoded = Base64.decode(base64String, 1); // die 1 ist ein Flag
+        byte[] decoded = Base64.decode(base64String, Base64.DEFAULT); // die 1 ist ein Flag
         Bitmap bitmap = BitmapFactory.decodeByteArray(decoded, 0, decoded.length); //Returns the decoded Bitmap, or null if the image could not be decoded.
         return bitmap;
     }
