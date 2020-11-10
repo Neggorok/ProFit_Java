@@ -83,12 +83,11 @@ public class TaskListAdapter extends RecyclerView.Adapter  {
 
         }else{
 
-            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.ppp);
+            Bitmap standartImage = Util.getBitmapFromDrawable(activity, R.drawable.kreuz);
 
-            // TODO setTaskImage scheint nicht zu funktinieren, die folgende Activity - TaskReaktion crasht beim aufrufen leerer Bilder
             task.setTaskImage(standartImage);
 
-            taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(standartImage, 40, 40, false));
+            taskHolder.taskImage.setImageBitmap(Bitmap.createScaledBitmap(task.getTaskImage(), 40, 40, false));
 
         }
 

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,17 +30,11 @@ import java.util.Map;
 public class TaskReaction extends AppCompatActivity {
 
     int loggedInTaskID;
-    int taskIDVal;
-
-    String taskImage;
+    int currentStatus;
 
     TextView taskNameTV;
-    TextView taskIDTV;
-
     ImageView taskImageIV;
-    Bitmap currentBitmap;
 
-    String taskname;
     RequestQueue queue;
 
 
@@ -69,9 +64,133 @@ public class TaskReaction extends AppCompatActivity {
         taskNameTV.setText(setTaskName);
         taskImageIV.setImageBitmap(taskBitmap);
 
+        queue = Volley.newRequestQueue(this);
 
 
 
+
+
+    }
+
+    public void erledigtButton(View view){
+
+        currentStatus = 1;
+
+        String create_user_url = getString(R.string.XAMPP) + "/changeStatus.php";
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                        Log.i("response", response);
+
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+//                            Toast.makeText(TaskListActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+                            int success = Integer.parseInt(jsonResponse.get("success").toString());
+                            if (success == 1) {
+
+                                // PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
+                                // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
+                                // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
+                                PreferenceManager.getDefaultSharedPreferences(TaskReaction.this).edit().putInt("status", jsonResponse.getInt("current_status")).apply();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("status", String.valueOf(currentStatus));
+                params.put("taskID", String.valueOf(loggedInTaskID));
+
+                return params;
+            }
+        };
+
+
+        queue.add(postRequest);
+
+        Intent intent = new Intent(TaskReaction.this, TaskListActivity.class);
+        startActivity(intent);
+    }
+
+    public void abbrechenButton(View view){
+
+        currentStatus = 0;
+
+        String create_user_url = getString(R.string.XAMPP) + "/changeStatus.php";
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                        Log.i("response", response);
+
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+//                            Toast.makeText(TaskListActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+                            int success = Integer.parseInt(jsonResponse.get("success").toString());
+                            if (success == 1) {
+
+                                // PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
+                                // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
+                                // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
+                                PreferenceManager.getDefaultSharedPreferences(TaskReaction.this).edit().putInt("status", jsonResponse.getInt("current_status")).apply();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("status", String.valueOf(currentStatus));
+                params.put("taskID", String.valueOf(loggedInTaskID));
+
+
+                return params;
+            }
+        };
+
+
+        queue.add(postRequest);
+
+        Intent intent = new Intent(TaskReaction.this, TaskListActivity.class);
+        startActivity(intent);
     }
 
 }

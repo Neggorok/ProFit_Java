@@ -63,7 +63,6 @@ public class TaskListActivity extends AppCompatActivity {
     TextView currentUserscoreTV;
     TextView currentUserTearTV;
     RecyclerView taskRecyclerView;
-    SwipeRefreshLayout swipeRefreshLayout;
 
     RequestQueue queue;
 
@@ -83,20 +82,8 @@ public class TaskListActivity extends AppCompatActivity {
         loggedInUsername = PreferenceManager.getDefaultSharedPreferences(this).getString("username", "-1");
         loggedInUserTear = PreferenceManager.getDefaultSharedPreferences(this).getInt("userTear", -1);
 
-//        refreshedUserscore = PreferenceManager.getDefaultSharedPreferences(this).getInt("refreshedScore", -1);
-
-
         currentUserscoreTV = (TextView) findViewById(R.id.userScoreTV);
         currentUserTearTV = (TextView) findViewById(R.id.userTearTV);
-
-
-
-//        // legt die shared Pref fest, um das TextView des beim create geladenen Userscores darzustellen
-//        SharedPreferences SPUserscore = getSharedPreferences(String.valueOf(loggedInUserscore), Activity.MODE_PRIVATE);
-//        String startUserscore = SPUserscore.getString("", String.valueOf(loggedInUserscore));
-//        // befüllt den TextView
-//        currentUserscoreTV.setText(startUserscore);
-
 
         taskList = new ArrayList<>();
         adapter = new TaskListAdapter(this, taskList);
@@ -107,18 +94,6 @@ public class TaskListActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
-//        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                // legt fest, was beim swipen refresht wird
-//                loadUserScore();
-//
-//
-//                // beendet die optische Laderückgabe - also den sich drehenden Preil
-//                swipeRefreshLayout.setRefreshing(false);
-//            }
-//        });
 
         loadUserScore();
         loadTaskList();
@@ -233,14 +208,25 @@ public class TaskListActivity extends AppCompatActivity {
                                 for (int taskObjekt = 0; taskObjekt < taskArray.length(); taskObjekt++) {
                                     JSONObject taskJson = taskArray.getJSONObject(taskObjekt);
 
-                                    if (taskJson.getString("image").length() > 0) {
+                                    if (taskJson.getString("image").length() > 0 && taskJson.getString("status").matches("0") ) {
 
                                         String bitmapString = taskJson.getString("image");
                                         Bitmap imageBitmap = Util.getBitmapFromBase64String(bitmapString);
 
                                         taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), imageBitmap));
+
+                                    }else if (taskJson.getString("imagetwo").length() > 0 && taskJson.getString("status").matches("1")){
+
+                                        String bitmapStringtwo = taskJson.getString("imagetwo");
+                                        Bitmap imageTwoBitmap = Util.getBitmapFromBase64String(bitmapStringtwo);
+
+                                        taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), imageTwoBitmap));
                                     }else{
-                                        taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), null));
+
+                                        Bitmap standartImageBitmap = Util.getBitmapFromDrawable(TaskListActivity.this, R.drawable.ppp);
+
+                                        taskList.add(new Task(taskJson.getString("taskname"), taskJson.getInt("taskID"), standartImageBitmap));
+
                                     }
 
                                 }
