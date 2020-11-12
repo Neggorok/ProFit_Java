@@ -99,7 +99,10 @@ public class TaskListActivity extends AppCompatActivity {
         loadTaskList();
     }
 
-
+    public void trainButton(View view){
+        Intent intent = new Intent(TaskListActivity.this, ChooseTraining.class);
+        startActivity(intent);
+    }
 
 
 

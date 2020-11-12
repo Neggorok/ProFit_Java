@@ -88,8 +88,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/trainButton"
                 android:layout_alignParentRight="true"
-                android:text="Training"
-                android:layout_centerHorizontal="true"/>
+                android:text="Training hinzufügen"
+                android:layout_centerHorizontal="true"
+                android:onClick="trainButton"/>
 
         </RelativeLayout>
 

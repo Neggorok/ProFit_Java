@@ -23,35 +23,45 @@
                 android:layout_centerHorizontal="true">
             </ImageView>
 
-            <TextView
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TrainingName"
+                android:id="@+id/trainNameSpinner"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:layout_below="@+id/trainIV"
-                android:id="@+id/trainNameTV">
+                />
 
-            </TextView>
-
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/trainNameTV"
+                android:layout_below="@+id/trainNameSpinner"
                 android:layout_centerHorizontal="true"
-                android:text="trainTime"
-                android:id="@+id/traintimeTV"
+                android:hint="trainTime"
+                android:id="@+id/traintimeET"
                 android:layout_marginTop="20dp">
-            </TextView>
+            </EditText>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="trainingScore"
+                android:id="@+id/trainScoreTV"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/traintimeTV"
+                android:layout_below="@+id/traintimeET"
                 android:layout_marginTop="20dp">
             </TextView>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speichern"
+                android:id="@+id/saveButton"
+                android:layout_below="@+id/trainScoreTV"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:onClick="saveButton">
+            </Button>
 
 
         </RelativeLayout>
