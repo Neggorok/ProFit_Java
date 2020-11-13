@@ -82,65 +82,75 @@ public class ChooseTraining extends AppCompatActivity implements AdapterView.OnI
 
     public void saveButton(View view){
 
-        String create_user_url = getString(R.string.XAMPP) + "/scoreUpTraining.php";
+        if (trainTime.getText().toString().matches("")) {
+            Toast.makeText(ChooseTraining.this, "Bitte tragen Sie ihre Trainingszeit ein!", Toast.LENGTH_SHORT).show();
 
-        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+        }else if ( trainName.getSelectedItemId() == 0) {
+            Toast.makeText(ChooseTraining.this, "Bitte wählen Sie ein Training aus!", Toast.LENGTH_SHORT).show();
 
+        }else{
 
+            String create_user_url = getString(R.string.XAMPP) + "/scoreUpTraining.php";
 
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
-                            Log.i("response", response);
-
-//                            int success = jsonResponse.getInt("success");
-                            Toast.makeText(ChooseTraining.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+            StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
 
-//                            if (success == 1) {
-//                                // der Intent startet die neue Activity
-//                                // dabei wird zuerst die Activity angegeben, in der wir uns befinden
-//                                // und anschließend die Zielactivity
-//                                Intent intent = new Intent(ChooseTraining.this, TaskListActivity.class);
-//                                startActivity(intent);
-//                            }
 
-                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
-                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
-                            Toast.makeText(ChooseTraining.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                                Log.i("response", response);
+
+                            int success = jsonResponse.getInt("success");
+                                Toast.makeText(ChooseTraining.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+
+                            if (success == 1) {
+                                // der Intent startet die neue Activity
+                                // dabei wird zuerst die Activity angegeben, in der wir uns befinden
+                                // und anschließend die Zielactivity
+                                Intent intent = new Intent(ChooseTraining.this, TaskListActivity.class);
+                                startActivity(intent);
+                            }
+
+                                // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                                // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+                                Toast.makeText(ChooseTraining.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
 
 
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
 
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("username", loggedInUsername);
-                params.put("trainTime", trainTime.getText().toString());
-                params.put("userscore", String.valueOf(loggedInUserscore));
-                params.put("trainName", trainName.getSelectedItem().toString());
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", loggedInUsername);
+                    params.put("trainTime", trainTime.getText().toString());
+                    params.put("userscore", String.valueOf(loggedInUserscore));
+                    params.put("trainName", trainName.getSelectedItem().toString());
 
 
 
-                return params;
+                    return params;
 
-            }
-        };
+                }
+            };
 
-        queue.add(postRequest);
+            queue.add(postRequest);
 
-    }
+        }
+        }
+
 
 
     @Override
