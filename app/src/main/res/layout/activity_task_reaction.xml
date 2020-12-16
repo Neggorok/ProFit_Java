@@ -34,10 +34,35 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/taskReactionLL"
+            android:id="@+id/contenTaskReaction"
+            android:layout_marginBottom="100dp"
+            android:layout_below="@+id/taskReactionLL">
+
+
+            <RelativeLayout
+                android:id="@+id/taskListRL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/taskReactionText"/>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+
             >
 
             <Button

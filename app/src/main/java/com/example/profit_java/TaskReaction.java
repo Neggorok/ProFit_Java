@@ -31,8 +31,11 @@ public class TaskReaction extends AppCompatActivity {
 
     int loggedInTaskID;
     int currentStatus;
+    String taskInformation;
+
 
     TextView taskNameTV;
+    TextView currentTaskInformation;
     ImageView taskImageIV;
 
     RequestQueue queue;
@@ -47,6 +50,7 @@ public class TaskReaction extends AppCompatActivity {
 
         taskNameTV = findViewById(R.id.taskReactionNameTV);
         taskImageIV = findViewById(R.id.taskReaktionIV);
+        currentTaskInformation = findViewById(R.id.taskReactionText);
 
 
         // TODO Image tauschen, wenn die Aufgabe als erledigt markiert wurde
@@ -66,8 +70,81 @@ public class TaskReaction extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
 
+        loadTaskInformation();
 
 
+
+
+
+    }
+
+    public void loadTaskInformation() {
+
+        String create_user_url = getString(R.string.XAMPP) + "/getTaskInformation.php";
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                        Log.i("response", response);
+
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+//                            Toast.makeText(TaskListActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+                            int success = Integer.parseInt(jsonResponse.get("success").toString());
+                            if (success == 1) {
+
+                                // PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putInt("refreshedScore", jsonResponse.getInt("refreshed_score")).apply();
+                                // Der Bug des alten Werte ladens tritt auf, wenn die alte userScore Variable, die bereits in der Activity geladen wurde,
+                                // nicht neu befüllt wird sondern eine 2. angelegt wird, da die Erste sonst mitgeladen und als erstes darstellt wird bis man ein 2. mal lädt
+                                PreferenceManager.getDefaultSharedPreferences(TaskReaction.this).edit().putString("taskInformation", jsonResponse.getString("task_Information")).apply();
+
+
+
+                                taskInformation = PreferenceManager.getDefaultSharedPreferences(TaskReaction.this).getString("taskInformation", "-1");
+
+
+                                //dringend jemanden Fragen wieso das funktioniert
+                                SharedPreferences SPRefreshedTaskInformation = getSharedPreferences(String.valueOf(taskInformation), Activity.MODE_PRIVATE);
+                                // ("", String.valueOf(loggedInUserscore) Wieso gibt er immer des 2. Wert aus? der erste wird immer ignoriert...
+                                String setTaskInformation = SPRefreshedTaskInformation.getString("", String.valueOf(taskInformation));
+
+
+                                currentTaskInformation.setText(setTaskInformation);
+
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("taskID", String.valueOf(loggedInTaskID));
+
+                return params;
+            }
+        };
+
+
+        queue.add(postRequest);
 
 
     }
