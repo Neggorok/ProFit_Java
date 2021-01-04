@@ -50,6 +50,7 @@ public class TaskListActivity extends AppCompatActivity {
     int loggedInUserID;
     int loggedInUserscore;
     int refreshedUserscore;
+    int statusAll;
     int refreshedUserTear;
     int loggedInUserTear;
     String loggedInUsername;
@@ -102,6 +103,63 @@ public class TaskListActivity extends AppCompatActivity {
     public void trainButton(View view){
         Intent intent = new Intent(TaskListActivity.this, ChooseTraining.class);
         startActivity(intent);
+    }
+
+    public void videoButton(View view) {
+
+        String create_user_url = getString(R.string.XAMPP) + "/GetStatus.php";
+
+        StringRequest postRequest = new StringRequest(Request.Method.POST, create_user_url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+
+                        // gibt die jeweilige Informationen aus der If-Abfrage der response-Variable der php Datei an die console von AS aus
+                        Log.i("response", response);
+
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            // gibt die message aus der If-Abfrage der Php-Datei an Das Handy weiter und gibt sie da als sichtbaren Toast aus
+                            // ein Toast ist ein kurz aufploppendes Fenster mit Informationen für den Nutzer
+//                            Toast.makeText(TaskListActivity.this, jsonResponse.get("message").toString(), Toast.LENGTH_SHORT).show();
+
+                            int success = Integer.parseInt(jsonResponse.get("success").toString());
+                            if (success == 1) {
+
+                                Intent intent = new Intent(TaskListActivity.this, Video.class);
+                                startActivity(intent);
+
+                                }else{
+                                    Toast.makeText(TaskListActivity.this,"Erfüllen Sie alle Aufgaben, um das Video frei zu schalten.", Toast.LENGTH_SHORT).show();
+                                }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("loggedUserTear", String.valueOf(loggedInUserTear));
+
+                return params;
+            }
+        };
+
+
+        queue.add(postRequest);
+
+
     }
 
 
