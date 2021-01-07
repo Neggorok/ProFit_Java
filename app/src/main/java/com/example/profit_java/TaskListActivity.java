@@ -50,7 +50,6 @@ public class TaskListActivity extends AppCompatActivity {
     int loggedInUserID;
     int loggedInUserscore;
     int refreshedUserscore;
-    int statusAll;
     int refreshedUserTear;
     int loggedInUserTear;
     String loggedInUsername;
@@ -126,6 +125,8 @@ public class TaskListActivity extends AppCompatActivity {
 
                             int success = Integer.parseInt(jsonResponse.get("success").toString());
                             if (success == 1) {
+
+                                PreferenceManager.getDefaultSharedPreferences(TaskListActivity.this).edit().putString("tearVideo", jsonResponse.getString("tear_video")).apply();
 
                                 Intent intent = new Intent(TaskListActivity.this, Video.class);
                                 startActivity(intent);
